@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MyFirstApp.Models;
+using WorldDominion.Models;
 
-namespace MyFirstApp.Controllers;
+namespace WorldDominion.Controllers;
 
 public class HomeController : Controller
 {
@@ -14,6 +14,11 @@ public class HomeController : Controller
     }
 
     public IActionResult Index()
+    {
+        return View();
+    }
+
+    public IActionResult About()
     {
         return View();
     }

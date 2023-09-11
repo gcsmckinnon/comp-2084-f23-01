@@ -1,4 +1,4 @@
-namespace MyFirstApp.Models;
+namespace WorldDominion.Models;
 
 public class ErrorViewModel
 {

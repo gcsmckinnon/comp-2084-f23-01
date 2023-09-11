@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Deparments";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var department in Model) {
+                <tr>
+                    <td>@department["Id"]</td>
+                    <td>@department["Name"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
