@@ -16,10 +16,16 @@ namespace WorldDominion.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-              return _context.Departments != null ? 
-                          View(await _context.Departments.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Departments'  is null.");
+            var departments = await _context.Departments
+                .OrderBy(department => department.Name)
+                .Include(department => department.Products.OrderBy(product => product.Name))
+                .ToListAsync();
+
+            return _context.Departments != null ?
+                          View(departments) :
+                          Problem("Entity set 'ApplicationDbContext.Departments' is null.");
         }
+
 
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -30,6 +36,7 @@ namespace WorldDominion.Controllers
             }
 
             var department = await _context.Departments
+                .Include(department => department.Products.OrderBy(product => product.Name))
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (department == null)
             {
@@ -144,14 +151,14 @@ namespace WorldDominion.Controllers
             {
                 _context.Departments.Remove(department);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DepartmentExists(int id)
         {
-          return (_context.Departments?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Departments?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
