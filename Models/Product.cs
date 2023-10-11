@@ -36,7 +36,7 @@ namespace WorldDominion.Models
         public decimal MSRP { get; set; } = 0.01M;
 
         [Required]
-        [Range(0.01, 999999.99)]
+        // [Range(0.01, 999999.99)]
         public decimal Weight { get; set; }
 
         [Required]
