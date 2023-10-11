@@ -31,7 +31,7 @@
 
             <div class="form-group">
                 <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
+                <input asp-for="Weight" class="form-control" type="number" step="0.01" min="0.01" max="999999.99" />
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
 
