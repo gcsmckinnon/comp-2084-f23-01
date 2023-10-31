@@ -1,4 +1,5 @@
 using System.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using WorldDominion.Models;
@@ -21,6 +22,10 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 });
 
+// Adding identity service
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 var app = builder.Build();
 
 app.UseSession();
@@ -38,6 +43,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Setup authentication and authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Below is a dedicated conventional route (custom route)
