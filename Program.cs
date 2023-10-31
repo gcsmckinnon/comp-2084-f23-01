@@ -1,7 +1,5 @@
-using System.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 using WorldDominion.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +20,13 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true;
 });
 
-// Adding identity service
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+// Adding identity service and roles
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+// Registering the DbInitializer seeder
+builder.Services.AddTransient<DbInitializer>();
 
 var app = builder.Build();
 
@@ -47,6 +49,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Seed roles
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using var scope = scopeFactory.CreateScope();
+var initializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+await DbInitializer.Initialize(
+    scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>(),
+    scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>()
+);
+
+
 // Below is a dedicated conventional route (custom route)
 app.MapControllerRoute(
     name: "privacy",
@@ -56,5 +68,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

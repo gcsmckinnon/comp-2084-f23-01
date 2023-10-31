@@ -11,8 +11,8 @@ using WorldDominion.Models;
 namespace WorldDominion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231031170235_AddIdentity")]
-    partial class AddIdentity
+    [Migration("20231031201850_CreateIdentity")]
+    partial class CreateIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
