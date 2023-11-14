@@ -12,5 +12,7 @@ namespace WorldDominion.Models
         
         public DbSet<Department> Departments { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Order { get; set; }
+        public DbSet<Product> OrderItem { get; set; }
     }
 }
