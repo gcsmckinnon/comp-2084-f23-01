@@ -20,6 +20,6 @@ namespace WorldDominion.Models
 
         public IdentityUser User { get; set; } = new IdentityUser();
 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }
