@@ -78,6 +78,28 @@ namespace WorldDominion.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult RemoveFromCart(int productId)
+        {
+            var cart = GetCart();
+
+            if (cart == null)
+            {
+                return NotFound();
+            }
+
+            var cartItem = cart.CartItems.Find(cartItem => cartItem.ProductId == productId);
+
+            if (cartItem != null)
+            {
+                cart.CartItems.Remove(cartItem);
+
+                SaveCart(cart);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         private Cart? GetCart()
         {
             var cartJson = HttpContext.Session.GetString(_cartSessionKey);

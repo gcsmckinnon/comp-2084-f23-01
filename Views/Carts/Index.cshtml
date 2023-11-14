@@ -19,11 +19,12 @@
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Subtotal</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach(var cartItem in Model.CartItems)
+                @foreach (var cartItem in Model.CartItems)
                 {
                     <tr>
                         <td>@cartItem.Product.Name</td>
@@ -32,6 +33,12 @@
                         <td>
                             @((decimal)(cartItem.Quantity * cartItem.Product.MSRP))
                         </td>
+                        <td>
+                            <form asp-action="RemoveFromCart">
+                                <input type="hidden" asp-for="@cartItem.ProductId" name="productId" />
+                                <input type="submit" value="Remove" class="btn btn-danger" />
+                            </form>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -39,7 +46,8 @@
             <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td colspan="3">@(Model.CartItems.Sum(cartItem => (decimal)(cartItem.Quantity * cartItem.Product.MSRP)))</td>
+                    <td colspan="3">@(Model.CartItems.Sum(cartItem => (decimal)(cartItem.Quantity * cartItem.Product.MSRP)))
+                    </td>
                 </tr>
             </tfoot>
         </table>
