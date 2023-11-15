@@ -27,11 +27,11 @@ Add the NuGet package for Entity Framework Core MySQL provider.
 ```bash
 dotnet tool uninstall --global dotnet-ef
 dotnet tool install --global dotnet-ef
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet add package Microsoft.EntityFrameworkCore.SQLite
-dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.3
+dotnet add package Microsoft.EntityFrameworkCore.SQLite --version 7.0.11
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 7.0.10
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.11
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.11
 dotnet add package MySql.EntityFrameworkCore --version 7.0.2
 ```
 
@@ -128,8 +128,8 @@ Adding Authentication and Authorization to an existing MVC project in ASP.NET Co
    - Ensure you have the necessary NuGet packages installed for ASP.NET Core Identity.
 
 ```bash
-dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
-dotnet add package Microsoft.AspNetCore.Identity.UI
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 7.0.13
+dotnet add package Microsoft.AspNetCore.Identity.UI --version 7.0.13
 ```
 
 2. **Update Program.cs**:
@@ -244,4 +244,9 @@ await DbInitializer.Initialize(
     scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>(),
     scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>()
 );
+```
+
+### 11. Adding Google Authentication Package
+```bash
+dotnet add package Microsoft.AspNetCore.Authentication.Google --version 7.0.13
 ```
