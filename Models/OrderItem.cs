@@ -15,9 +15,13 @@ namespace WorldDominion.Models
         public string ProductName { get; set; } = String.Empty;
 
         [Required]
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; } = 0.00M;
+
+        [Required]
         public int Quantity { get; set; }
 
         [ForeignKey("OrderId")]
-        public virtual Order? Order { get; set; };
+        public virtual Order? Order { get; set; }
     }
 }
