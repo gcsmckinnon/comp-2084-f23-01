@@ -38,6 +38,9 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 
 builder.Services.AddScoped<CartService>();
 
+// Add so controllers can read config
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseSession();

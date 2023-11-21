@@ -11,8 +11,8 @@ using WorldDominion.Models;
 namespace WorldDominion.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231115184343_MissingPriceFieldInOrderItem")]
-    partial class MissingPriceFieldInOrderItem
+    [Migration("20231101195427_CreateIdentitySchema")]
+    partial class CreateIdentitySchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,55 +238,6 @@ namespace WorldDominion.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("WorldDominion.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("PaymentReceived")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("WorldDominion.Models.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItem");
-                });
-
             modelBuilder.Entity("WorldDominion.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -376,28 +327,6 @@ namespace WorldDominion.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WorldDominion.Models.Order", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WorldDominion.Models.OrderItem", b =>
-                {
-                    b.HasOne("WorldDominion.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("WorldDominion.Models.Product", b =>
                 {
                     b.HasOne("WorldDominion.Models.Department", "Department")
@@ -412,11 +341,6 @@ namespace WorldDominion.Migrations
             modelBuilder.Entity("WorldDominion.Models.Department", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("WorldDominion.Models.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

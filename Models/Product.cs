@@ -5,13 +5,14 @@ namespace WorldDominion.Models
 {
     public enum ProductWeightUnit
     {
-        Grams,
-        Kilograms,
-        Pounds,
-        Ounces,
-        Litres,
+        GRAMS,
+        KILOGRAMS,
+        POUNDS,
+        OUNCES,
+        LITRES,
+        UNITS,
+        PIECES,
     }
-
     public class Product
     {
         [Key]
@@ -36,13 +37,14 @@ namespace WorldDominion.Models
         public decimal MSRP { get; set; } = 0.01M;
 
         [Required]
-        // [Range(0.01, 999999.99)]
-        public decimal Weight { get; set; }
+        [Range(0.01, 999999.99)]
+        public decimal Weight { get; set; } = 0.01M;
 
         [Required]
-        public ProductWeightUnit WeightUnit { get; set; }
+        public ProductWeightUnit WeightUnit { get; set; } = ProductWeightUnit.UNITS;
 
         [ForeignKey("DepartmentId")]
-        public virtual Department? Department { get; set; }
+        public virtual Department? Department { get; set; } // creates the association to departments
+        // allows a department to be stored in an instance of a product
     }
 }

@@ -4,7 +4,7 @@ namespace WorldDominion.Models
 {
     public class Department
     {
-        [Key]
+        [Key] // data annotation (specifies this is a primary key)
         public int Id { get; set; } = 0;
 
         [Required, StringLength(300)]
@@ -13,6 +13,7 @@ namespace WorldDominion.Models
         [StringLength(1000)]
         public string? Description { get; set; } = String.Empty;
 
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+        // Relationship with Products and place to store products in the Department instance
+        public virtual ICollection<Product>? Products { get; set; } = new List<Product>();
     }
 }

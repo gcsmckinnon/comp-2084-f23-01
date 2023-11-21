@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace WorldDominion.Models
 {
@@ -19,7 +20,7 @@ namespace WorldDominion.Models
         public decimal Price { get; set; } = 0.00M;
 
         [Required]
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 0;
 
         [ForeignKey("OrderId")]
         public virtual Order? Order { get; set; }

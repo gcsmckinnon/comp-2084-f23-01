@@ -25,7 +25,7 @@ public class HomeController : Controller
 
     public IActionResult About()
     {
-        return View();
+        return View(); // returns Views/Home/About.cshtml
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

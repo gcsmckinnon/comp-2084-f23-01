@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WorldDominion.Models;
 using WorldDominion.Services;
 
@@ -13,12 +12,13 @@ namespace WorldDominion.Controllers
 
         public CartsController(CartService cartService, ApplicationDbContext context)
         {
-            _cartService = cartService;
             _context = context;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
         {
+            // Get our cart (either an existing or generate a new one)
             var cart = _cartService.GetCart();
 
             if (cart == null)
@@ -26,10 +26,16 @@ namespace WorldDominion.Controllers
                 return NotFound();
             }
 
+            // If the cart has items, we need to add the product reference for those items
             if (cart.CartItems.Count > 0)
             {
                 foreach (var cartItem in cart.CartItems)
                 {
+                    /*
+                        SELECT * FROM Products
+                        JOIN Departments ON Products.DepartmentId = Departments.Id
+                        WHERE Products.Id = 1 LIMIT 1
+                    */
                     var product = await _context.Products
                         .Include(p => p.Department)
                         .FirstOrDefaultAsync(p => p.Id == cartItem.ProductId);
@@ -47,25 +53,27 @@ namespace WorldDominion.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId, int quantity)
         {
+            // Getting the active cart
             var cart = _cartService.GetCart();
 
-            if (cart == null)
-            {
+            if (cart == null) {
                 return NotFound();
             }
 
+            // Checking if item already is in the cart
             var cartItem = cart.CartItems.Find(cartItem => cartItem.ProductId == productId);
 
             if (cartItem != null && cartItem.Product != null)
             {
-                cartItem.Quantity += quantity; 
-            }    
+                cartItem.Quantity += quantity;
+            }
             else
             {
                 var product = await _context.Products
                     .FirstOrDefaultAsync(p => p.Id == productId);
 
-                if (product == null) {
+                if (product == null)
+                {
                     return NotFound();
                 }
 
@@ -73,9 +81,8 @@ namespace WorldDominion.Controllers
                 cart.CartItems.Add(cartItem);
             }
 
-
             _cartService.SaveCart(cart);
-
+            
             return RedirectToAction("Index");
         }
 
@@ -99,6 +106,7 @@ namespace WorldDominion.Controllers
             }
 
             return RedirectToAction("Index");
-        }
+        }      
     }
+
 }

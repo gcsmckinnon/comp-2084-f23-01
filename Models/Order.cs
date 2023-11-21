@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace WorldDominion.Models
@@ -16,7 +17,7 @@ namespace WorldDominion.Models
         public decimal Total { get; set; } = 0.00M;
 
         [Required]
-        public bool PaymentReceived {get; set; } = false;
+        public bool PaymentReceived { get; set; } = false;
 
         public IdentityUser User { get; set; } = new IdentityUser();
 

@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using WorldDominion.Models;
+using Newtonsoft.Json;
 
 namespace WorldDominion.Services
 {
@@ -13,6 +13,13 @@ namespace WorldDominion.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public Cart? GetCart()
+        {
+            var cartJson = _httpContextAccessor.HttpContext.Session.GetString(_cartSessionKey);
+
+            return cartJson == null ? new Cart() : JsonConvert.DeserializeObject<Cart>(cartJson);
+        }
+
         public void SaveCart(Cart cart)
         {
             var cartJson = JsonConvert.SerializeObject(cart);
@@ -20,11 +27,9 @@ namespace WorldDominion.Services
             _httpContextAccessor.HttpContext.Session.SetString(_cartSessionKey, cartJson);
         }
 
-        public Cart? GetCart()
+        public void DestroyCart()
         {
-            var cartJson = _httpContextAccessor.HttpContext.Session.GetString(_cartSessionKey);
-
-            return cartJson == null ? new Cart() : JsonConvert.DeserializeObject<Cart>(cartJson);
+            _httpContextAccessor.HttpContext.Session.Remove(_cartSessionKey);
         }
     }
 }

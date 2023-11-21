@@ -9,10 +9,11 @@ namespace WorldDominion.Models
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        
+
+        // Change to be your model(s) and table(s)
         public DbSet<Department> Departments { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }
