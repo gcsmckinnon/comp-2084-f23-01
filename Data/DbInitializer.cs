@@ -20,19 +20,24 @@ namespace WorldDominion.Models
                 }
             }
 
-            var user = new IdentityUser
+            var existingUser = await userManager.FindByEmailAsync("admin@admin.com");
+            
+            if (existingUser == null)
             {
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com",
-            };
+                var user = new IdentityUser
+                {
+                    UserName = "admin@admin.com",
+                    Email = "admin@admin.com",
+                };
 
-            string userPWD = "Password@123";
+                string userPWD = "Password@123";
 
-            var createUser = await userManager.CreateAsync(user, userPWD);
+                var createUser = await userManager.CreateAsync(user, userPWD);
 
-            if (createUser.Succeeded)
-            {
-                await userManager.AddToRoleAsync(user, "Admin");
+                if (createUser.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Admin");
+                }
             }
         }
     }

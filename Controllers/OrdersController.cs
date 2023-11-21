@@ -26,7 +26,7 @@ namespace WorldDominion.Controllers
         [Authorize()]
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (userId == null) return NotFound();
 
@@ -44,7 +44,7 @@ namespace WorldDominion.Controllers
         [Authorize()]
         public async Task<IActionResult> Details(int? id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             if (userId == null) return NotFound();
 
@@ -52,7 +52,6 @@ namespace WorldDominion.Controllers
                 .Include(order => order.OrderItems)
                 .Include(order => order.User)
                 .Where(order => order.UserId == userId)
-                .Where(order => order.PaymentReceived == true)
                 .FirstOrDefaultAsync(order => order.Id == id);
 
             return View(order);
@@ -61,7 +60,7 @@ namespace WorldDominion.Controllers
         [Authorize()]
         public IActionResult Checkout()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var cart = _cartService.GetCart();
 
             if (cart == null)
@@ -154,8 +153,20 @@ namespace WorldDominion.Controllers
             {
                 UserId = userId,
                 Total = cart.CartItems.Sum(cartItem => (decimal)(cartItem.Quantity * cartItem.Product.MSRP)),
-                OrderItems = new List<OrderItem>()
+                OrderItems = new List<OrderItem>(),
+                PaymentReceived = true,
             };
+
+            foreach (var cartItem in cart.CartItems)
+            {
+                order.OrderItems.Add(new OrderItem
+                {
+                    OrderId = order.Id,
+                    ProductName = cartItem.Product.Name,
+                    Quantity = cartItem.Quantity,
+                    Price = cartItem.Product.MSRP
+                });
+            }
 
             await _context.AddAsync(order);
             await _context.SaveChangesAsync();

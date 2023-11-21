@@ -10,7 +10,6 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
                 <th>Total</th>
                 <th>Actions</th>
             </tr>
@@ -21,7 +20,6 @@
             {
                 <tr>
                     <td>@order.Id</td>
-                    <td>@order.User.Name</td>
                     <td>@order.Total</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@order.Id">Details</a>
